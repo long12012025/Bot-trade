@@ -4,13 +4,12 @@ import logging
 import openai
 from dotenv import load_dotenv
 
-load_dotenv()  # Load biến môi trường từ .env
+load_dotenv()
 
-# Cấu hình logging cơ bản
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='agent_ai_client.log',  # Ghi log ra file
+    filename='agent_ai_client.log',
     filemode='a'
 )
 
@@ -44,6 +43,6 @@ class AIClient:
             except Exception as e:
                 retries += 1
                 logging.error(f"Lỗi API: {e}, thử lại lần {retries}")
-                time.sleep(2 ** retries)  # Backoff theo hàm mũ: 2,4,8 giây ...
+                time.sleep(2 ** retries)
         logging.error("Không thể lấy chiến lược do lỗi API sau nhiều lần thử.")
         return "Không thể lấy chiến lược do lỗi API sau nhiều lần thử."

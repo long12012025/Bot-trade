@@ -1,68 +1,83 @@
-from typing import List, Dict, Optional
-from agent.ai_client import AIClient
+import logging
 
 class StrategySelector:
-    def __init__(self, memory_manager, ai_client: AIClient):
+    def __init__(self, memory_manager, ai_client):
+        """
+        Khởi tạo StrategySelector với memory_manager và ai_client đã có.
+        """
         self.memory = memory_manager
-        self.ai_client = ai_client
-        self.available_strategies = [
-            {"name": "scalping", "description": "Giao dịch nhanh trong thời gian rất ngắn"},
-            {"name": "swing", "description": "Giữ lệnh vài ngày, tận dụng dao động trung hạn"},
-            {"name": "trend_following", "description": "Theo xu hướng thị trường dài hạn"},
-        ]
+        self.ai = ai_client
 
-    def evaluate_strategy_performance(self, history: List[Dict]) -> Dict[str, float]:
-        performance = {}
-        counts = {}
+    def analyze_history(self, limit=10):
+        """
+        Phân tích lịch sử chiến lược gần đây để tổng hợp số lần thắng, thua và lợi nhuận trung bình.
+        Trả về dict hoặc None nếu không có dữ liệu.
+        """
+        records = self.memory.get_records("strategies", limit=limit)
+        if not records:
+            logging.info("Không có lịch sử chiến lược để phân tích.")
+            return None
 
-        for record in history:
-            strat = record.get("strategy_name")
-            profit = record.get("profit", 0)
-            if strat not in performance:
-                performance[strat] = 0
-                counts[strat] = 0
-            performance[strat] += profit
-            counts[strat] += 1
+        wins = 0
+        losses = 0
+        total_profit = 0
+        count_profit_records = 0
 
-        for strat in performance:
-            performance[strat] /= counts[strat]
+        for record in records:
+            result = record.get("result")
+            profit = record.get("profit")
+            if result:
+                if result.lower() == "win":
+                    wins += 1
+                elif result.lower() == "loss":
+                    losses += 1
+            if profit is not None:
+                try:
+                    total_profit += float(profit)
+                    count_profit_records += 1
+                except Exception as e:
+                    logging.warning(f"Lỗi khi phân tích lợi nhuận: {e}")
 
-        return performance
+        avg_profit = total_profit / count_profit_records if count_profit_records > 0 else 0
 
-    def get_ai_advice(self, history: List[Dict]) -> Optional[str]:
-        prompt = "Bạn là chuyên gia phân tích giao dịch crypto. Dựa vào dữ liệu lịch sử sau, đề xuất chiến lược giao dịch tốt nhất trong danh sách:\n"
-        prompt += "Chiến lược: scalping, swing, trend_following\n"
-        prompt += "Dữ liệu lịch sử:\n"
-        for record in history[-10:]:
-            prompt += f"- {record}\n"
-        prompt += "Hãy trả về duy nhất tên chiến lược phù hợp nhất."
+        summary = {
+            "wins": wins,
+            "losses": losses,
+            "avg_profit": avg_profit,
+            "total": len(records)
+        }
+        logging.info(f"Phân tích lịch sử: {summary}")
+        return summary
 
-        response = self.ai_client.get_strategy(prompt)
-        if response:
-            # Làm sạch kết quả và so khớp với chiến lược có sẵn
-            cleaned = response.lower().strip()
-            for strat in self.available_strategies:
-                if strat["name"] in cleaned:
-                    return strat["name"]
-        return None
+    def build_prompt(self, base_prompt, history_summary):
+        """
+        Tạo prompt gửi cho AI dựa trên prompt gốc và tóm tắt lịch sử.
+        """
+        if history_summary is None:
+            return base_prompt
 
-    def select_best_strategy(self) -> Optional[Dict]:
-        history = self.memory.get_records("strategies", limit=100)
-        if not history:
-            return self.available_strategies[0]
+        if history_summary["losses"] > history_summary["wins"]:
+            enhanced_prompt = (base_prompt +
+                               "\nLưu ý: Các chiến lược trước đây có tỉ lệ thua cao, "
+                               "vui lòng đề xuất chiến lược mới cải thiện hiệu quả và giảm rủi ro.")
+        elif history_summary["avg_profit"] < 0.01:
+            enhanced_prompt = (base_prompt +
+                               "\nLưu ý: Lợi nhuận trung bình thấp, hãy đề xuất chiến lược tối ưu hơn.")
+        else:
+            enhanced_prompt = base_prompt + "\nVui lòng đưa ra chiến lược tốt nhất dựa trên dữ liệu hiện tại."
 
-        performance = self.evaluate_strategy_performance(history)
-        ai_suggestion = self.get_ai_advice(history)
+        logging.info(f"Prompt gửi AI: {enhanced_prompt}")
+        return enhanced_prompt
 
-        if ai_suggestion:
-            for strat in self.available_strategies:
-                if strat["name"] == ai_suggestion:
-                    return strat
-
-        if performance:
-            best_strategy_name = max(performance, key=performance.get)
-            for strat in self.available_strategies:
-                if strat["name"] == best_strategy_name:
-                    return strat
-
-        return self.available_strategies[0]
+    def select_strategy(self, base_prompt: str):
+        """
+        Lấy chiến lược từ AI dựa trên prompt đã được điều chỉnh theo lịch sử.
+        """
+        history_summary = self.analyze_history(limit=10)
+        prompt = self.build_prompt(base_prompt, history_summary)
+        try:
+            strategy = self.ai.get_strategy(prompt)
+        except Exception as e:
+            logging.error(f"Lỗi khi gọi AI để lấy chiến lược: {e}")
+            strategy = "Không thể lấy chiến lược do lỗi hệ thống."
+        return strategy

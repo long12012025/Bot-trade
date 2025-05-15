@@ -20,17 +20,17 @@ class MemoryManager:
         with open(self.memory_file, "w", encoding="utf-8") as f:
             json.dump(self.memory, f, indent=4, ensure_ascii=False)
 
-    def add_record(self, key: str, value):
-        timestamp = datetime.utcnow().isoformat()
-        if key not in self.memory:
-            self.memory[key] = []
-        self.memory[key].append({"timestamp": timestamp, "value": value})
-        self.save_memory()
+    def add_record(self, category: str, data: dict):
+        if category not in self.storage:
+            self.storage[category] = []
+        record = data.copy()
+        record["timestamp"] = time.time()
+        self.storage[category].append(record)
 
-    def get_records(self, key: str, limit: int = 10):
-        if key in self.memory:
-            return self.memory[key][-limit:]
-        return []
+    def get_records(self, category: str, limit=10):
+        if category not in self.storage:
+            return []
+        return self.storage[category][-limit:]
 
     def clear_memory(self):
         self.memory = {}
