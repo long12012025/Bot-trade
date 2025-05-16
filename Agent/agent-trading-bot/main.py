@@ -26,8 +26,11 @@ def main():
             "profit": 8.3
         })
 
+    # Chuẩn bị prompt gốc
+    base_prompt = "Đề xuất chiến lược giao dịch tốt nhất dựa trên dữ liệu hiện tại."
+
     # Lấy chiến lược tốt nhất
-    best_strategy = strategy_selector.select_best_strategy()
+    best_strategy = strategy_selector.select_strategy(base_prompt)
     print("📈 Chiến lược được chọn:", best_strategy)
 
 if __name__ == "__main__":

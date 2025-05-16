@@ -1,0 +1,22 @@
+{
+    "strategies": [
+        {
+            "strategy_name": "scalping",
+            "result": "win",
+            "profit": 12.5,
+            "timestamp": 1747291762.1083138
+        },
+        {
+            "strategy_name": "swing",
+            "result": "loss",
+            "profit": -5.2,
+            "timestamp": 1747291762.1088629
+        },
+        {
+            "strategy_name": "trend_following",
+            "result": "win",
+            "profit": 8.3,
+            "timestamp": 1747291762.1093566
+        }
+    ]
+}

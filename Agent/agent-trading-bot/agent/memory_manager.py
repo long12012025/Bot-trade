@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+import time  # cần import time để dùng time.time()
 
 class MemoryManager:
     def __init__(self, memory_file="memory.json"):
@@ -21,16 +21,17 @@ class MemoryManager:
             json.dump(self.memory, f, indent=4, ensure_ascii=False)
 
     def add_record(self, category: str, data: dict):
-        if category not in self.storage:
-            self.storage[category] = []
+        if category not in self.memory:
+            self.memory[category] = []
         record = data.copy()
         record["timestamp"] = time.time()
-        self.storage[category].append(record)
+        self.memory[category].append(record)
+        self.save_memory()  # lưu lại mỗi lần thêm record
 
     def get_records(self, category: str, limit=10):
-        if category not in self.storage:
+        if category not in self.memory:
             return []
-        return self.storage[category][-limit:]
+        return self.memory[category][-limit:]
 
     def clear_memory(self):
         self.memory = {}

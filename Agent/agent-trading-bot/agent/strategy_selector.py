@@ -1,6 +1,9 @@
 import logging
 
 class StrategySelector:
+    base_prompt = "Bạn là chuyên gia trading thông minh. Phân tích lịch sử giao dịch và hiệu quả trước đây, đề xuất chiến lược trading cụ thể, tối ưu lợi nhuận và giảm thiểu rủi ro, dễ áp dụng thực tế."
+    best_strategy = strategy_selector.select_strategy(base_prompt)
+
     def __init__(self, memory_manager, ai_client):
         """
         Khởi tạo StrategySelector với memory_manager và ai_client đã có.

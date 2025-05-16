@@ -1,0 +1,40 @@
+2025-05-15 13:50:35,446 - INFO - Phân tích l\u1ecbch s\u1eed: {'wins': 2, 'losses': 1, 'avg_profit': 5.2, 'total': 3}
+2025-05-15 13:50:35,447 - INFO - Prompt g\u1eedi AI: \u0110\u1ec1 xu\u1ea5t chi\u1ebfn l\u01b0\u1ee3c giao d\u1ecbch t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+Vui lòng \u0111\u01b0a ra chi\u1ebfn l\u01b0\u1ee3c t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+2025-05-15 13:50:35,447 - INFO - G\u1eedi prompt t\u1edbi API: \u0110\u1ec1 xu\u1ea5t chi\u1ebfn l\u01b0\u1ee3c giao d\u1ecbch t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+Vui lòng \u0111\u01b0a ra chi\u1ebfn l\u01b0\u1ee3c t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+2025-05-15 13:50:35,447 - ERROR - L\u1ed7i API: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+, th\u1eed l\u1ea1i l\u1ea7n 1
+2025-05-15 13:50:37,448 - INFO - G\u1eedi prompt t\u1edbi API: \u0110\u1ec1 xu\u1ea5t chi\u1ebfn l\u01b0\u1ee3c giao d\u1ecbch t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+Vui lòng \u0111\u01b0a ra chi\u1ebfn l\u01b0\u1ee3c t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+2025-05-15 13:50:37,449 - ERROR - L\u1ed7i API: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+, th\u1eed l\u1ea1i l\u1ea7n 2
+2025-05-15 13:50:41,450 - INFO - G\u1eedi prompt t\u1edbi API: \u0110\u1ec1 xu\u1ea5t chi\u1ebfn l\u01b0\u1ee3c giao d\u1ecbch t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+Vui lòng \u0111\u01b0a ra chi\u1ebfn l\u01b0\u1ee3c t\u1ed1t nh\u1ea5t d\u1ef1a trên d\u1eef li\u1ec7u hi\u1ec7n t\u1ea1i.
+2025-05-15 13:50:41,450 - ERROR - L\u1ed7i API: 
+
+You tried to access openai.ChatCompletion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
+
+You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
+
+Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
+
+A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
+, th\u1eed l\u1ea1i l\u1ea7n 3
+2025-05-15 13:50:49,451 - ERROR - Không th\u1ec3 l\u1ea5y chi\u1ebfn l\u01b0\u1ee3c do l\u1ed7i API sau nhi\u1ec1u l\u1ea7n th\u1eed.
